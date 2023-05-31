@@ -3,7 +3,7 @@ variable "name" {}
 variable "rg" {}
 
 variable "storage" {
-  type = number
+  type    = number
   default = 5120
 }
 
@@ -12,22 +12,22 @@ variable "create_mode" {
 }
 
 variable "backup_retention_days" {
-  type = number
+  type    = number
   default = 30
 }
 
 variable "geo_redundant_backup_enabled" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "admin_username" {
-  type = string
+  type    = string
   default = "postgres"
 }
 
 variable "postgres_version" {
-  type = number
+  type    = number
   default = 11
 }
 
@@ -41,10 +41,21 @@ variable "allowed_sources" {
   default = {}
   type = map(object({
     start_address = string
-    end_address = string
+    end_address   = string
   }))
 }
 
-variable "tags" {
-  default = {}
+variable "subnet_id" {
+  default = null
+}
+
+variable "private_dns_zone" {
+  default = {
+    id   = null
+    name = null
+  }
+  type = object({
+    id   = string
+    name = string
+  })
 }

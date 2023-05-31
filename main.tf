@@ -16,6 +16,16 @@ resource "azurerm_postgresql_flexible_server" "this" {
   zone                         = var.zone
   backup_retention_days        = var.backup_retention_days
   geo_redundant_backup_enabled = var.geo_redundant_backup_enabled
+  delegated_subnet_id          = var.subnet_id
+  private_dns_zone_id          = var.private_dns_zone.id
+}
+
+data "azurerm_private_dns_a_record" "this" {
+  provider            = azurerm
+  count               = var.private_dns_zone == null ? 0 : 1
+  name                = azurerm_postgresql_flexible_server.this.name
+  zone_name           = var.private_dns_zone.name
+  resource_group_name = var.rg.name
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "this" {
