@@ -18,6 +18,11 @@ resource "azurerm_postgresql_flexible_server" "this" {
   geo_redundant_backup_enabled = var.geo_redundant_backup_enabled
   delegated_subnet_id          = var.subnet_id
   private_dns_zone_id          = var.private_dns_zone.id
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 data "azurerm_private_dns_a_record" "this" {
