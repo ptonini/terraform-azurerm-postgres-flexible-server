@@ -27,8 +27,8 @@ resource "azurerm_postgresql_flexible_server" "this" {
 
 data "azurerm_private_dns_a_record" "this" {
   provider            = azurerm
-  count               = var.private_dns_zone == null ? 0 : 1
-  name                = azurerm_postgresql_flexible_server.this.name
+  count               = var.private_dns_hostname == null ? 0 : 1
+  name                = var.private_dns_hostname
   zone_name           = var.private_dns_zone.name
   resource_group_name = var.rg.name
 }

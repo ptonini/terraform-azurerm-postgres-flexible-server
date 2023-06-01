@@ -59,3 +59,7 @@ variable "private_dns_zone" {
     name = string
   })
 }
+
+variable "private_dns_hostname" {
+  default = null
+}
