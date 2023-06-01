@@ -63,3 +63,7 @@ variable "private_dns_zone" {
 variable "private_dns_hostname" {
   default = null
 }
+
+variable "server_configurations" {
+  type = map(string)
+}

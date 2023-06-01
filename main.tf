@@ -25,12 +25,11 @@ resource "azurerm_postgresql_flexible_server" "this" {
   }
 }
 
-data "azurerm_private_dns_a_record" "this" {
-  provider            = azurerm
-  count               = var.private_dns_hostname == null ? 0 : 1
-  name                = var.private_dns_hostname
-  zone_name           = var.private_dns_zone.name
-  resource_group_name = var.rg.name
+resource "azurerm_postgresql_flexible_server_configuration" "this" {
+  for_each = var.server_configurations
+  server_id = azurerm_postgresql_flexible_server.this.id
+  name      = each.key
+  value     = each.value
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "this" {
@@ -40,3 +39,12 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "this" {
   start_ip_address = each.value.start_address
   end_ip_address   = coalesce(each.value.end_address, each.value.start_address)
 }
+
+data "azurerm_private_dns_a_record" "this" {
+  provider            = azurerm
+  count               = var.private_dns_hostname == null ? 0 : 1
+  name                = var.private_dns_hostname
+  zone_name           = var.private_dns_zone.name
+  resource_group_name = var.rg.name
+}
+
