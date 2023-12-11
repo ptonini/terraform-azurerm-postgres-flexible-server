@@ -20,13 +20,16 @@ resource "azurerm_postgresql_flexible_server" "this" {
   private_dns_zone_id          = var.private_dns_zone.id
   lifecycle {
     ignore_changes = [
-      tags
+      tags["business_unit"],
+      tags["environment"],
+      tags["product"],
+      tags["subscription_type"]
     ]
   }
 }
 
 resource "azurerm_postgresql_flexible_server_configuration" "this" {
-  for_each = var.server_configurations
+  for_each  = var.server_configurations
   server_id = azurerm_postgresql_flexible_server.this.id
   name      = each.key
   value     = each.value
